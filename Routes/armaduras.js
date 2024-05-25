@@ -1,6 +1,6 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
-import Armadura from '../models/armadura.js'; // Certifique-se de exportar Armadura usando 'export default' no modelo correspondente
+const Armadura = require('../models/armadura');
 
 // POST - Criar uma nova armadura
 router.post('/', async (req, res) => {
@@ -34,7 +34,7 @@ router.put('/:id', getArmadura, async (req, res) => {
   if (req.body.nome != null) {
     res.armadura.nome = req.body.nome;
   }
-  // Adicione outros campos a serem atualizados aqui
+  // Outros campos a serem atualizados...
   try {
     const updatedArmadura = await res.armadura.save();
     res.json(updatedArmadura);
@@ -48,7 +48,7 @@ router.delete('/:id', getArmadura, async (req, res) => {
   try {
     await res.armadura.remove();
     res.json({ message: 'Deleted This Armadura' });
-  } catch (err) {
+  } catch(err) {
     res.status(500).json({ message: err.message });
   }
 });
@@ -59,9 +59,9 @@ async function getArmadura(req, res, next) {
   try {
     armadura = await Armadura.findById(req.params.id);
     if (armadura == null) {
-      return res.status(404).json({ message: 'Cant find armadura' });
+      return res.status(404).json({ message: 'Cant find armadura'});
     }
-  } catch (err) {
+  } catch(err){
     return res.status(500).json({ message: err.message });
   }
   
@@ -69,4 +69,4 @@ async function getArmadura(req, res, next) {
   next();
 }
 
-export default router;
+module.exports = router;

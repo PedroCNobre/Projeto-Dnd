@@ -1,10 +1,11 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
+
 const magiaSchema = new mongoose.Schema({
   nome: String,
-  descricao: String,
-  elemento: String,
-  escolaMagia: String,
-  dano: String
+  descricao: String ,
+    elemento: String ,
+    escolaMagia: String ,
+    dano: Number
 });
-const Magia = mongoose.model('Magia', magiaSchema);
-export default Magia;
+
+module.exports = mongoose.model('magia', magiaSchema);

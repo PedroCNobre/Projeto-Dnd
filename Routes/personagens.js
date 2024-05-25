@@ -1,6 +1,6 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
-import Personagem from '../models/personagem.js'; // Certifique-se de que seu modelo 'Personagem' use 'export default'
+const Personagem = require('../models/personagem');
 
 // POST - Criar um novo personagem
 router.post('/', async (req, res) => {
@@ -28,11 +28,11 @@ router.put('/:id', getPersonagem, async (req, res) => {
   if (req.body.nome != null) {
     res.personagem.nome = req.body.nome;
   }
-  // Adicione outros campos a serem atualizados aqui
+  // Outros campos a serem atualizados...
   try {
     const updatedPersonagem = await res.personagem.save();
     res.json(updatedPersonagem);
-  } catch (err) {
+  } catch {
     res.status(400).json({ message: err.message });
   }
 });
@@ -53,7 +53,7 @@ async function getPersonagem(req, res, next) {
   try {
     personagem = await Personagem.findById(req.params.id);
     if (personagem == null) {
-      return res.status(404).json({ message: "Can't find personagem" });
+      return res.status(404).json({ message: 'Cant find personagem'});
     }
   } catch(err){
     return res.status(500).json({ message: err.message });
@@ -63,4 +63,4 @@ async function getPersonagem(req, res, next) {
   next();
 }
 
-export default router;
+module.exports = router;

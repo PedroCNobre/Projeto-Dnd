@@ -1,9 +1,10 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
+
 const classeSchema = new mongoose.Schema({
-  nome: String,
+  nome: { type: String, required: true },
   descricao: String,
   qtdAtaques: Number,
-  dadosVida: String
+  dadosVida: Number
 });
-const Classe = mongoose.model('Classe', classeSchema);
-export default Classe;
+
+module.exports = mongoose.model('Classe', classeSchema);

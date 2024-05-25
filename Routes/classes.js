@@ -1,6 +1,6 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
-import Classe from '../models/classe.js';  // Certifique-se de que seu modelo 'Classe' usa 'export default'
+const Classe = require('../models/classe');
 
 // POST - Criar uma nova classe
 router.post('/', async (req, res) => {
@@ -34,7 +34,7 @@ router.put('/:id', getClasse, async (req, res) => {
   if (req.body.nome != null) {
     res.classe.nome = req.body.nome;
   }
-  // Adicione outros campos a serem atualizados aqui
+  // Outros campos a serem atualizados...
   try {
     const updatedClasse = await res.classe.save();
     res.json(updatedClasse);
@@ -48,7 +48,7 @@ router.delete('/:id', getClasse, async (req, res) => {
   try {
     await res.classe.remove();
     res.json({ message: 'Deleted This Classe' });
-  } catch (err) {
+  } catch(err) {
     res.status(500).json({ message: err.message });
   }
 });
@@ -59,14 +59,14 @@ async function getClasse(req, res, next) {
   try {
     classe = await Classe.findById(req.params.id);
     if (classe == null) {
-      return res.status(404).json({ message: 'Can\'t find classe' });
+      return res.status(404).json({ message: 'Cant find classe'});
     }
-  } catch(err) {
+  } catch(err){
     return res.status(500).json({ message: err.message });
   }
-
+  
   res.classe = classe;
   next();
 }
 
-export default router;
+module.exports = router;

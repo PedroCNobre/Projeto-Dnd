@@ -1,6 +1,6 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
-import Arma from '../models/arma.js';  // Garanta que seu modelo 'Arma' use 'export default'
+const Arma = require('../models/arma');
 
 // POST - Criar uma nova arma
 router.post('/', async (req, res) => {
@@ -34,7 +34,7 @@ router.put('/:id', getArma, async (req, res) => {
   if (req.body.nome != null) {
     res.arma.nome = req.body.nome;
   }
-  // Adicione outros campos a serem atualizados aqui
+  // Outros campos a serem atualizados...
   try {
     const updatedArma = await res.arma.save();
     res.json(updatedArma);
@@ -43,12 +43,12 @@ router.put('/:id', getArma, async (req, res) => {
   }
 });
 
-/// DELETE - Deletar uma arma pelo ID
+// DELETE - Deletar uma arma pelo ID
 router.delete('/:id', getArma, async (req, res) => {
   try {
     await res.arma.remove();
-    res.json({ message: "Deleted This Arma" });
-  } catch (err) {
+    res.json({ message: 'Deleted This Arma' });
+  } catch(err) {
     res.status(500).json({ message: err.message });
   }
 });
@@ -59,7 +59,7 @@ async function getArma(req, res, next) {
   try {
     arma = await Arma.findById(req.params.id);
     if (arma == null) {
-      return res.status(404).json({ message: "Can't find arma" });
+      return res.status(404).json({ message: 'Cant find arma'});
     }
   } catch(err){
     return res.status(500).json({ message: err.message });
@@ -68,4 +68,5 @@ async function getArma(req, res, next) {
   res.arma = arma;
   next();
 }
-export default router;
+
+module.exports = router;

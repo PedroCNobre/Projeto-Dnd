@@ -1,9 +1,10 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
+
 const armaSchema = new mongoose.Schema({
-  nome: String,
+  nome: { type: String, required: true },
   descricao: String,
   tipoDano: String,
   dano: String
 });
-const Arma = mongoose.model('Arma', armaSchema);
-export default Arma;
+
+module.exports = mongoose.model('Arma', armaSchema);

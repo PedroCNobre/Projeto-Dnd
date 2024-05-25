@@ -1,15 +1,24 @@
-import dotenv from 'dotenv';
-dotenv.config();
-import express from 'express';
-import mongoose from 'mongoose';
-import personagensRoutes from '../Routes/personagens.js';
-import racasRoutes from '../Routes/racas.js';
-import classesRoutes from '../Routes/classes.js';
-import armasRoutes from '../Routes/armas.js';
-import armadurasRoutes from '../Routes/armaduras.js';
-import magiasRoutes from '../Routes/magias.js';
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const path = require('path'); // Importe o módulo 'path'
+
+// Importe os arquivos de rota
+const personagensRoutes = require('../Routes/personagens');
+const racasRoutes = require('../Routes/racas');
+const classesRoutes = require('../Routes/classes');
+const armasRoutes = require('../Routes/armas');
+const armadurasRoutes = require('../Routes/armaduras');
+const magiasRoutes = require('../Routes/magias');
 
 const app = express();
+
+// Configurar o EJS como mecanismo de modelo
+app.set('view engine', 'ejs');
+
+// Definir o diretório de visualizações
+app.set('views', path.join(__dirname, '../views'));
 
 // Conexão com o MongoDB
 mongoose.connect(process.env.MONGODB_URI, { 
@@ -19,8 +28,9 @@ mongoose.connect(process.env.MONGODB_URI, {
 .then(() => console.log('Conexão com o MongoDB bem-sucedida!'))
 .catch(err => console.error('Erro na conexão com o MongoDB:', err));
 
-// Middleware para análise do corpo da requisião como JSON
+// Middleware para análise do corpo da requisição como JSON
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Rotas para cada modelo de dados
 app.use('/api/personagens', personagensRoutes);
@@ -30,9 +40,14 @@ app.use('/api/armas', armasRoutes);
 app.use('/api/armaduras', armadurasRoutes);
 app.use('/api/magias', magiasRoutes);
 
-// Rota raiz para verificar se o servidor está funcionando
+// Rota raiz para renderizar a visualização
 app.get('/', (req, res) => {
-  res.send('Servidor do Criador de Personagens D&D rodando!');
+  res.render('personagem'); // Renderiza a visualização 'personagem.ejs'
+});
+
+// Rota para verificar se o servidor está funcionando
+app.get('/api', (req, res) => {
+  res.send('API do Criador de Personagens D&D rodando!');
 });
 
 // Captura de erros 404 para URIs não encontradas

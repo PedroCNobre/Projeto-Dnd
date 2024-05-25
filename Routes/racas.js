@@ -1,6 +1,6 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
-import Raca from '../models/raca.js';  // Certifique-se de que seu modelo 'Raca' usa 'export default'
+const Raca = require('../models/raca');
 
 // POST - Criar uma nova raça
 router.post('/', async (req, res) => {
@@ -60,7 +60,7 @@ async function getRaca(req, res, next) {
   try {
     raca = await Raca.findById(req.params.id);
     if (raca == null) {
-      return res.status(404).json({ message: "Can't find raca" });
+      return res.status(404).json({ message: 'Cant find raca'});
     }
   } catch(err){
     return res.status(500).json({ message: err.message });
@@ -70,4 +70,4 @@ async function getRaca(req, res, next) {
   next();
 }
 
-export default router;
+module.exports = router;

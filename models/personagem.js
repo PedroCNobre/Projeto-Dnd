@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const personagemSchema = new mongoose.Schema({
   nome: { type: String, required: true },
@@ -20,5 +20,4 @@ const personagemSchema = new mongoose.Schema({
   magias: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Magia' }]
 });
 
-export default mongoose.model('Personagem', personagemSchema);
-
+module.exports =   mongoose.model('Personagem', personagemSchema);

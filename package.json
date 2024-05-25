@@ -1,5 +1,4 @@
 {
-  "type": "module",
   "name": "meu-criador-de-personagens-dnd",
   "version": "1.0.0",
   "description": "Um criador de personagens de DnD usando MongoDB, Express e Node.js",
@@ -11,12 +10,11 @@
   "author": "Seu Nome",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.6.8",
     "dotenv": "^8.2.0",
+    "ejs": "^3.1.10",
     "express": "^4.19.2",
     "mongodb": "^6.6.0",
-    "mongoose": "^5.13.22",
-    "react-router-dom": "^6.23.1"
+    "mongoose": "^5.13.22"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

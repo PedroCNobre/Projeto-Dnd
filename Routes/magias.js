@@ -1,6 +1,6 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
-import Magia from '../models/magia.js'; // Garanta que seu modelo 'Magia' use 'export default'
+const Magia = require('../models/magia');
 
 // POST - Criar uma nova magia
 router.post('/', async (req, res) => {
@@ -60,7 +60,7 @@ async function getMagia(req, res, next) {
   try {
     magia = await Magia.findById(req.params.id);
     if (magia == null) {
-      return res.status(404).json({ message: "Can't find magia" });
+      return res.status(404).json({ message: 'Cant find magia'});
     }
   } catch(err){
     return res.status(500).json({ message: err.message });
@@ -70,4 +70,4 @@ async function getMagia(req, res, next) {
   next();
 }
 
-export default router;
+module.exports = router;

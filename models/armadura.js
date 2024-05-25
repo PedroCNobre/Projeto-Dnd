@@ -1,12 +1,10 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const armaduraSchema = new mongoose.Schema({
-  nome: String,
+  nome: { type: String, required: true },
   descricao: String,
   tipoArmadura: String,
   classeDefesa: Number
 });
 
-const Armadura = mongoose.model('Armadura', armaduraSchema);
-
-export default Armadura;
+module.exports = mongoose.model('Armadura', armaduraSchema);

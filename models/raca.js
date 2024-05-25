@@ -1,10 +1,11 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
+
 const racaSchema = new mongoose.Schema({
-  nome: String,
+  nome: { type: String, required: true },
   descricao: String,
   idioma: String,
-  modificadorPrincipal: Number,
-  modificadorSecundario: Number
+  modificadorPrincipal: String,
+  modificadorSecundario: String
 });
-const Raca = mongoose.model('Raca', racaSchema);
-export default Raca;
+
+module.exports = mongoose.model('Raca', racaSchema);
