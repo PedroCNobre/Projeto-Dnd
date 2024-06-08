@@ -42,9 +42,24 @@ app.use('/api/magias', magiasRoutes);
 
 // Rota raiz para renderizar a visualização
 app.get('/', (req, res) => {
-  res.render('personagem'); // Renderiza a visualização 'personagem.ejs'
+  res.render('menu'); // Renderiza a visualização 'menu.ejs'
 });
-
+// Adicione uma rota para renderizar a visualização de equipamentos
+app.get('/views/equipamentos.ejs', (req, res) => {
+  res.render('equipamentos'); // Renderiza a visualização 'equipamentos.ejs'
+});
+app.get('/views/magias.ejs', (req, res) => {
+  res.render('magias'); 
+});
+app.get('/views/classes.ejs', (req, res) => {
+  res.render('classes'); 
+});
+app.get('/views/personagens.ejs', (req, res) => {
+  res.render('personagens'); 
+});
+app.get('/views/racas.ejs', (req, res) => {
+  res.render('racas'); 
+});
 // Rota para verificar se o servidor está funcionando
 app.get('/api', (req, res) => {
   res.send('API do Criador de Personagens D&D rodando!');
