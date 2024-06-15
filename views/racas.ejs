@@ -1,24 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raças</title>
-</head>
-<body>
-    <h1>Listar todas as raças</h1>
-    <ul id="lista-racas"></ul>
-    <p>Alterar raças</p>
-    <ul id="alterar-racas"></ul>
-    <p>Deletar raças</p>
-    <ul id="deletar-racas"></ul>
-    <p>Atualizar raças</p>
-    <ul id="atualizar-racas"></ul>
-    
-    <button onclick="goBack()">Voltar</button>
-</body>
-<script>
-    function goBack() {
-        window.history.back();}
-</script>
-</html>
+<%- include('layout', { title: 'Raças', content: `
+<main>
+  <button onclick="history.back()">Voltar</button> <!-- Botão de Voltar -->
+  <h1>Lista de Raças</h1>
+  <ul>
+    <% if (racas.length > 0) { %>
+      <% racas.forEach(function(raca) { %>
+        <li><%= raca.nome %> - <%= raca.descricao %></li>
+      <% }); %>
+    <% } else { %>
+      <li>Nenhuma raça encontrada.</li>
+    <% } %>
+  </ul>
+</main>
+` }) %>

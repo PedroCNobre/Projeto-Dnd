@@ -2,28 +2,47 @@ const express = require('express');
 const router = express.Router();
 const Arma = require('../models/arma');
 
+// GET - Listar todas as armas
+router.get('/', async (req, res) => {
+  try {
+    const armas = await Arma.find();
+    res.render('list', { title: 'Armas', items: armas, itemUrl: '/armas' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// GET - Formulário para criar uma nova arma
+router.get('/new', (req, res) => {
+  res.render('form', { formTitle: 'Criar Arma', item: null, formAction: '/armas' });
+});
+
 // POST - Criar uma nova arma
 router.post('/', async (req, res) => {
-  const arma = new Arma({
-    nome: req.body.nome,
-    descricao: req.body.descricao,
-    tipoDano: req.body.tipoDano,
-    dano: req.body.dano
-  });
-
   try {
-    const novaArma = await arma.save();
-    res.status(201).json(novaArma);
+    const arma = new Arma(req.body);
+    await arma.save();
+    res.redirect('/armas');
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-// GET - Listar todas as armas
-router.get('/', async (req, res) => {
+// GET - Detalhes da arma
+router.get('/:id', async (req, res) => {
   try {
-    const armas = await Arma.find();
-    res.json(armas);
+    const arma = await Arma.findById(req.params.id);
+    res.render('detail', { title: 'Arma', item: arma, itemUrl: '/armas' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// GET - Formulário para editar uma arma
+router.get('/edit/:id', async (req, res) => {
+  try {
+    const arma = await Arma.findById(req.params.id);
+    res.render('form', { formTitle: 'Editar Arma', item: arma, formAction: `/armas/${arma._id}?_method=PUT` });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -37,8 +56,8 @@ router.put('/:id', getArma, async (req, res) => {
   // Outros campos a serem atualizados...
   try {
     const updatedArma = await res.arma.save();
-    res.json(updatedArma);
-  } catch (err) {
+    res.redirect(`/armas/${updatedArma._id}`);
+  } catch {
     res.status(400).json({ message: err.message });
   }
 });
@@ -47,8 +66,8 @@ router.put('/:id', getArma, async (req, res) => {
 router.delete('/:id', getArma, async (req, res) => {
   try {
     await res.arma.remove();
-    res.json({ message: 'Deleted This Arma' });
-  } catch(err) {
+    res.redirect('/armas');
+  } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
@@ -59,9 +78,9 @@ async function getArma(req, res, next) {
   try {
     arma = await Arma.findById(req.params.id);
     if (arma == null) {
-      return res.status(404).json({ message: 'Cant find arma'});
+      return res.status(404).json({ message: 'Não foi possível encontrar a arma' });
     }
-  } catch(err){
+  } catch (err) {
     return res.status(500).json({ message: err.message });
   }
   

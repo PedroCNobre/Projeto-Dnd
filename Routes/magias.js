@@ -2,29 +2,47 @@ const express = require('express');
 const router = express.Router();
 const Magia = require('../models/magia');
 
+// GET - Listar todas as magias
+router.get('/', async (req, res) => {
+  try {
+    const magias = await Magia.find();
+    res.render('list', { title: 'Magias', items: magias, itemUrl: '/magias' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// GET - Formulário para criar uma nova magia
+router.get('/new', (req, res) => {
+  res.render('form', { formTitle: 'Criar Magia', item: null, formAction: '/magias' });
+});
+
 // POST - Criar uma nova magia
 router.post('/', async (req, res) => {
-  const magia = new Magia({
-    nome: req.body.nome,
-    descricao: req.body.descricao,
-    elemento: req.body.elemento,
-    escolaMagia: req.body.escolaMagia,
-    dano: req.body.dano
-  });
-
   try {
-    const novaMagia = await magia.save();
-    res.status(201).json(novaMagia);
+    const magia = new Magia(req.body);
+    await magia.save();
+    res.redirect('/magias');
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-// GET - Listar todas as magias
-router.get('/', async (req, res) => {
+// GET - Detalhes da magia
+router.get('/:id', async (req, res) => {
   try {
-    const magias = await Magia.find();
-    res.json(magias);
+    const magia = await Magia.findById(req.params.id);
+    res.render('detail', { title: 'Magia', item: magia, itemUrl: '/magias' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// GET - Formulário para editar uma magia
+router.get('/edit/:id', async (req, res) => {
+  try {
+    const magia = await Magia.findById(req.params.id);
+    res.render('form', { formTitle: 'Editar Magia', item: magia, formAction: `/magias/${magia._id}?_method=PUT` });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -38,8 +56,8 @@ router.put('/:id', getMagia, async (req, res) => {
   // Outros campos a serem atualizados...
   try {
     const updatedMagia = await res.magia.save();
-    res.json(updatedMagia);
-  } catch (err) {
+    res.redirect(`/magias/${updatedMagia._id}`);
+  } catch {
     res.status(400).json({ message: err.message });
   }
 });
@@ -48,8 +66,8 @@ router.put('/:id', getMagia, async (req, res) => {
 router.delete('/:id', getMagia, async (req, res) => {
   try {
     await res.magia.remove();
-    res.json({ message: 'Deleted This Magia' });
-  } catch(err) {
+    res.redirect('/magias');
+  } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
@@ -60,9 +78,9 @@ async function getMagia(req, res, next) {
   try {
     magia = await Magia.findById(req.params.id);
     if (magia == null) {
-      return res.status(404).json({ message: 'Cant find magia'});
+      return res.status(404).json({ message: 'Não foi possível encontrar a magia' });
     }
-  } catch(err){
+  } catch (err) {
     return res.status(500).json({ message: err.message });
   }
   

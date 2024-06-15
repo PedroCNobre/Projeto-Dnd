@@ -1,24 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personagens</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personagens</title>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <h1>Listar todas os personagens</h1>
-    <ul id="lista-personagens"></ul>
-    <p>Alterar personagens</p>
-    <ul id="alterar-personagens"></ul>
-    <p>Deletar personagens</p>
-    <ul id="deletar-personagens"></ul>
-    <p>Atualizar personagens</p>
-    <ul id="atualizar-personagens"></ul>
-    <button onclick="goBack()">Voltar</button>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/personagens">Personagens</a></li>
+        <li><a href="/racas">Raças</a></li>
+        <li><a href="/classes">Classes</a></li>
+        <li><a href="/armas">Armas</a></li>
+        <li><a href="/armaduras">Armaduras</a></li>
+        <li><a href="/magias">Magias</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <button onclick="history.back()">Voltar</button> <!-- Botão de Voltar -->
+    <h1>Lista de Personagens</h1>
+    <ul>
+      <% if (personagens.length > 0) { %>
+        <% personagens.forEach(function(personagem) { %>
+          <li><%= personagem.nome %> - <%= personagem.classe %> - <%= personagem.raca %></li>
+        <% }); %>
+      <% } else { %>
+        <li>Nenhum personagem encontrado.</li>
+      <% } %>
+    </ul>
+  </main>
+  <footer>
+    <p>&copy; 2024 Criador de Personagens DnD</p>
+  </footer>
 </body>
-<script>
-    
-    function goBack() {
-        window.history.back();}
-</script>
 </html>

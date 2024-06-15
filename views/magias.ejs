@@ -1,23 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>magias</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magias</title>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <h1>Listar todas as magias</h1>
-    <ul id="lista-magias"></ul>
-    <p>Alterar magias</p>
-    <ul id="alterar-magias"></ul>
-    <p>Deletar magias</p>
-    <ul id="deletar-magias"></ul>
-    <p>Atualizar magias</p>
-    <ul id="atualizar-magias"></ul>
-    <button onclick="goBack()">Voltar</button>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/personagens">Personagens</a></li>
+        <li><a href="/racas">Raças</a></li>
+        <li><a href="/classes">Classes</a></li>
+        <li><a href="/armas">Armas</a></li>
+        <li><a href="/armaduras">Armaduras</a></li>
+        <li><a href="/magias">Magias</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <button onclick="history.back()">Voltar</button> <!-- Botão de Voltar -->
+    <h1>Lista de Magias</h1>
+    <ul>
+      <% if (magias.length > 0) { %>
+        <% magias.forEach(function(magia) { %>
+          <li><%= magia.nome %> - <%= magia.descricao %> - Dano: <%= magia.dano %></li>
+        <% }); %>
+      <% } else { %>
+        <li>Nenhuma magia encontrada.</li>
+      <% } %>
+    </ul>
+  </main>
+  <footer>
+    <p>&copy; 2024 Criador de Personagens DnD</p>
+  </footer>
 </body>
-<script>
-      function goBack() {
-        window.history.back();}
-</script>
 </html>

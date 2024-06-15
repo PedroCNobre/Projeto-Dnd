@@ -2,28 +2,47 @@ const express = require('express');
 const router = express.Router();
 const Classe = require('../models/classe');
 
+// GET - Listar todas as classes
+router.get('/', async (req, res) => {
+  try {
+    const classes = await Classe.find();
+    res.render('list', { title: 'Classes', items: classes, itemUrl: '/classes' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// GET - Formulário para criar uma nova classe
+router.get('/new', (req, res) => {
+  res.render('form', { formTitle: 'Criar Classe', item: null, formAction: '/classes' });
+});
+
 // POST - Criar uma nova classe
 router.post('/', async (req, res) => {
-  const classe = new Classe({
-    nome: req.body.nome,
-    descricao: req.body.descricao,
-    qtdAtaques: req.body.qtdAtaques,
-    dadosVida: req.body.dadosVida
-  });
-
   try {
-    const novaClasse = await classe.save();
-    res.status(201).json(novaClasse);
+    const classe = new Classe(req.body);
+    await classe.save();
+    res.redirect('/classes');
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-// GET - Listar todas as classes
-router.get('/', async (req, res) => {
+// GET - Detalhes da classe
+router.get('/:id', async (req, res) => {
   try {
-    const classes = await Classe.find();
-    res.json(classes);
+    const classe = await Classe.findById(req.params.id);
+    res.render('detail', { title: 'Classe', item: classe, itemUrl: '/classes' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// GET - Formulário para editar uma classe
+router.get('/edit/:id', async (req, res) => {
+  try {
+    const classe = await Classe.findById(req.params.id);
+    res.render('form', { formTitle: 'Editar Classe', item: classe, formAction: `/classes/${classe._id}?_method=PUT` });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -37,8 +56,8 @@ router.put('/:id', getClasse, async (req, res) => {
   // Outros campos a serem atualizados...
   try {
     const updatedClasse = await res.classe.save();
-    res.json(updatedClasse);
-  } catch (err) {
+    res.redirect(`/classes/${updatedClasse._id}`);
+  } catch {
     res.status(400).json({ message: err.message });
   }
 });
@@ -47,8 +66,8 @@ router.put('/:id', getClasse, async (req, res) => {
 router.delete('/:id', getClasse, async (req, res) => {
   try {
     await res.classe.remove();
-    res.json({ message: 'Deleted This Classe' });
-  } catch(err) {
+    res.redirect('/classes');
+  } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
@@ -59,9 +78,9 @@ async function getClasse(req, res, next) {
   try {
     classe = await Classe.findById(req.params.id);
     if (classe == null) {
-      return res.status(404).json({ message: 'Cant find classe'});
+      return res.status(404).json({ message: 'Não foi possível encontrar a classe' });
     }
-  } catch(err){
+  } catch (err) {
     return res.status(500).json({ message: err.message });
   }
   

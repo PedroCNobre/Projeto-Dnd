@@ -2,28 +2,47 @@ const express = require('express');
 const router = express.Router();
 const Armadura = require('../models/armadura');
 
+// GET - Listar todas as armaduras
+router.get('/', async (req, res) => {
+  try {
+    const armaduras = await Armadura.find();
+    res.render('list', { title: 'Armaduras', items: armaduras, itemUrl: '/armaduras' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// GET - Formulário para criar uma nova armadura
+router.get('/new', (req, res) => {
+  res.render('form', { formTitle: 'Criar Armadura', item: null, formAction: '/armaduras' });
+});
+
 // POST - Criar uma nova armadura
 router.post('/', async (req, res) => {
-  const armadura = new Armadura({
-    nome: req.body.nome,
-    descricao: req.body.descricao,
-    tipoArmadura: req.body.tipoArmadura,
-    classeDefesa: req.body.classeDefesa
-  });
-
   try {
-    const novaArmadura = await armadura.save();
-    res.status(201).json(novaArmadura);
+    const armadura = new Armadura(req.body);
+    await armadura.save();
+    res.redirect('/armaduras');
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-// GET - Listar todas as armaduras
-router.get('/', async (req, res) => {
+// GET - Detalhes da armadura
+router.get('/:id', async (req, res) => {
   try {
-    const armaduras = await Armadura.find();
-    res.json(armaduras);
+    const armadura = await Armadura.findById(req.params.id);
+    res.render('detail', { title: 'Armadura', item: armadura, itemUrl: '/armaduras' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// GET - Formulário para editar uma armadura
+router.get('/edit/:id', async (req, res) => {
+  try {
+    const armadura = await Armadura.findById(req.params.id);
+    res.render('form', { formTitle: 'Editar Armadura', item: armadura, formAction: `/armaduras/${armadura._id}?_method=PUT` });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -37,8 +56,8 @@ router.put('/:id', getArmadura, async (req, res) => {
   // Outros campos a serem atualizados...
   try {
     const updatedArmadura = await res.armadura.save();
-    res.json(updatedArmadura);
-  } catch (err) {
+    res.redirect(`/armaduras/${updatedArmadura._id}`);
+  } catch {
     res.status(400).json({ message: err.message });
   }
 });
@@ -47,8 +66,8 @@ router.put('/:id', getArmadura, async (req, res) => {
 router.delete('/:id', getArmadura, async (req, res) => {
   try {
     await res.armadura.remove();
-    res.json({ message: 'Deleted This Armadura' });
-  } catch(err) {
+    res.redirect('/armaduras');
+  } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
@@ -59,9 +78,9 @@ async function getArmadura(req, res, next) {
   try {
     armadura = await Armadura.findById(req.params.id);
     if (armadura == null) {
-      return res.status(404).json({ message: 'Cant find armadura'});
+      return res.status(404).json({ message: 'Não foi possível encontrar a armadura' });
     }
-  } catch(err){
+  } catch (err) {
     return res.status(500).json({ message: err.message });
   }
   

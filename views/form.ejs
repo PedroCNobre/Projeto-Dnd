@@ -1,0 +1,13 @@
+<%- include('layout', { body: `
+    <h1><%= formTitle %></h1>
+    <form action="<%= formAction %>" method="POST">
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" name="nome" value="<%= item ? item.nome : '' %>">
+      
+      <label for="descricao">Descrição:</label>
+      <textarea id="descricao" name="descricao"><%= item ? item.descricao : '' %></textarea>
+      
+      <button type="submit">Salvar</button>
+    </form>
+  ` }) %>
+  
