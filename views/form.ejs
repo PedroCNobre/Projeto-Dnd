@@ -1,13 +1,126 @@
-<%- include('layout', { body: `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= formTitle %></title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/personagens">Personagens</a></li>
+        <li><a href="/racas">Raças</a></li>
+        <li><a href="/classes">Classes</a></li>
+        <li><a href="/armas">Armas</a></li>
+        <li><a href="/armaduras">Armaduras</a></li>
+        <li><a href="/magias">Magias</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
     <h1><%= formTitle %></h1>
     <form action="<%= formAction %>" method="POST">
+      <% if (item) { %>
+        <input type="hidden" name="_method" value="PUT">
+      <% } %>
       <label for="nome">Nome:</label>
-      <input type="text" id="nome" name="nome" value="<%= item ? item.nome : '' %>">
-      
-      <label for="descricao">Descrição:</label>
-      <textarea id="descricao" name="descricao"><%= item ? item.descricao : '' %></textarea>
-      
-      <button type="submit">Salvar</button>
+      <input type="text" id="nome" name="nome" value="<%= item ? item.nome : '' %>" required>
+
+      <% if (itemType === 'personagem') { %>
+        <label for="raca">Raça:</label>
+        <select id="raca" name="raca" required>
+          <% racas.forEach(function(raca) { %>
+            <option value="<%= raca._id %>" <%= item && item.raca && item.raca.equals(raca._id) ? 'selected' : '' %>><%= raca.nome %></option>
+          <% }); %>
+        </select>
+
+        <label for="classe">Classe:</label>
+        <select id="classe" name="classe" required>
+          <% classes.forEach(function(classe) { %>
+            <option value="<%= classe._id %>" <%= item && item.classe && item.classe.equals(classe._id) ? 'selected' : '' %>><%= classe.nome %></option>
+          <% }); %>
+        </select>
+
+        <label for="armadura">Armadura:</label>
+        <select id="armadura" name="armadura" required>
+          <% armaduras.forEach(function(armadura) { %>
+            <option value="<%= armadura._id %>" <%= item && item.armadura && item.armadura.equals(armadura._id) ? 'selected' : '' %>><%= armadura.nome %></option>
+          <% }); %>
+        </select>
+
+        <label for="armas">Armas:</label>
+        <select id="armas" name="armas" multiple required>
+          <% armas.forEach(function(arma) { %>
+            <option value="<%= arma._id %>" <%= item && item.armas && item.armas.some(a => a.equals(arma._id)) ? 'selected' : '' %>><%= arma.nome %></option>
+          <% }); %>
+        </select>
+
+        <label for="magias">Magias:</label>
+        <select id="magias" name="magias" multiple required>
+          <% magias.forEach(function(magia) { %>
+            <option value="<%= magia._id %>" <%= item && item.magias && item.magias.some(m => m.equals(magia._id)) ? 'selected' : '' %>><%= magia.nome %></option>
+          <% }); %>
+        </select>
+
+        <label for="nivel">Nível:</label>
+        <input type="number" id="nivel" name="nivel" value="<%= item ? item.nivel : '' %>" required>
+
+        <label for="pontosVida">Pontos de Vida:</label>
+        <input type="number" id="pontosVida" name="pontosVida" value="<%= item ? item.pontosVida : '' %>" required>
+      <% } else if (itemType === 'raca') { %>
+        <label for="descricao">Descrição:</label>
+        <textarea id="descricao" name="descricao" required><%= item ? item.descricao : '' %></textarea>
+        <label for="forca">Força:</label>
+        <input type="text" id="forca" name="forca" value="<%= item ? item.forca : '' %>" required>
+        <label for="destreza">Destreza:</label>
+        <input type="text" id="destreza" name="destreza" value="<%= item ? item.destreza : '' %>" required>
+        <label for="constituicao">Constituição:</label>
+        <input type="text" id="constituicao" name="constituicao" value="<%= item ? item.constituicao : '' %>" required>
+        <label for="inteligencia">Inteligência:</label>
+        <input type="text" id="inteligencia" name="inteligencia" value="<%= item ? item.inteligencia : '' %>" required>
+        <label for="sabedoria">Sabedoria:</label>
+        <input type="text" id="sabedoria" name="sabedoria" value="<%= item ? item.sabedoria : '' %>" required>
+        <label for="carisma">Carisma:</label>
+        <input type="text" id="carisma" name="carisma" value="<%= item ? item.carisma : '' %>" required>
+      <% } else if (itemType === 'classe') { %>
+        <label for="descricao">Descrição:</label>
+        <textarea id="descricao" name="descricao" required><%= item ? item.descricao : '' %></textarea>
+      <% } else if (itemType === 'arma') { %>
+        <label for="descricao">Descrição:</label>
+        <textarea id="descricao" name="descricao" required><%= item ? item.descricao : '' %></textarea>
+        <label for="dano">Dano:</label>
+        <input type="text" id="dano" name="dano" value="<%= item ? item.dano : '' %>" required>
+        <label for="tipo">Tipo:</label>
+        <input type="text" id="tipo" name="tipo" value="<%= item ? item.tipo : '' %>" required>
+      <% } else if (itemType === 'armadura') { %>
+        <label for="descricao">Descrição:</label>
+        <textarea id="descricao" name="descricao" required><%= item ? item.descricao : '' %></textarea>
+        <label for="defesa">Defesa:</label>
+        <input type="number" id="defesa" name="defesa" value="<%= item ? item.defesa : '' %>" required>
+        <label for="tipo">Tipo:</label>
+        <input type="text" id="tipo" name="tipo" value="<%= item ? item.tipo : '' %>" required>
+      <% } else if (itemType === 'magia') { %>
+        <label for="descricao">Descrição:</label>
+        <textarea id="descricao" name="descricao" required><%= item ? item.descricao : '' %></textarea>
+        <label for="nivel">Nível:</label>
+        <input type="number" id="nivel" name="nivel" value="<%= item ? item.nivel : '' %>" required>
+        <label for="escola">Escola:</label>
+        <input type="text" id="escola" name="escola" value="<%= item ? item.escola : '' %>" required>
+      <% } %>
+      <button type="submit">Confirmar</button>
     </form>
-  ` }) %>
-  
+
+    <% if (item) { %>
+      <form action="<%= formAction %>?_method=DELETE" method="POST">
+        <button type="submit">Excluir</button>
+      </form>
+    <% } %>
+  </main>
+  <footer>
+    <p>&copy; 2024 Criador de Personagens DnD</p>
+  </footer>
+</body>
+</html>

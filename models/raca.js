@@ -3,14 +3,12 @@ const mongoose = require('mongoose');
 const racaSchema = new mongoose.Schema({
   nome: { type: String, required: true },
   descricao: { type: String, required: true },
-  atributos: {
-    forca: { type: Number, required: true },
-    destreza: { type: Number, required: true },
-    constituicao: { type: Number, required: true },
-    inteligencia: { type: Number, required: true },
-    sabedoria: { type: Number, required: true },
-    carisma: { type: Number, required: true }
-  }
+  forca: { type: String, required: true },
+  destreza: { type: String, required: true },
+  constituicao: { type: String, required: true },
+  inteligencia: { type: String, required: true },
+  sabedoria: { type: String, required: true },
+  carisma: { type: String, required: true }
 });
 
 module.exports = mongoose.model('Raca', racaSchema);

@@ -1,16 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const path = require('path');
 require('dotenv').config();
 
 // Importe os arquivos de rota
-const personagensRoutes = require('../Routes/personagens');
-const racasRoutes = require('../Routes/racas');
-const classesRoutes = require('../Routes/classes');
-const armasRoutes = require('../Routes/armas');
-const armadurasRoutes = require('../Routes/armaduras');
-const magiasRoutes = require('../Routes/magias');
+const personagensRoutes = require('../routes/personagens');
+const racasRoutes = require('../routes/racas');
+const classesRoutes = require('../routes/classes');
+const armasRoutes = require('../routes/armas');
+const armadurasRoutes = require('../routes/armaduras');
+const magiasRoutes = require('../routes/magias');
 
 const app = express();
 
@@ -27,12 +28,13 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// Middleware para sobrescrever métodos (PUT, DELETE)
+app.use(methodOverride('_method'));
+
 // Conexão com o MongoDB usando Mongoose
 const uri = process.env.MONGODB_URI;
 
 mongoose.connect(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
   serverSelectionTimeoutMS: 5000,
   connectTimeoutMS: 10000,
   socketTimeoutMS: 45000
@@ -50,7 +52,7 @@ mongoose.connect(uri, {
 
   // Rota raiz para renderizar a visualização
   app.get('/', (req, res) => {
-    res.render('index', { title: 'Home' }); // Renderiza a visualização 'index.ejs'
+    res.render('index'); // Renderiza a visualização 'index.ejs'
   });
 
   // Rota para verificar se o servidor está funcionando

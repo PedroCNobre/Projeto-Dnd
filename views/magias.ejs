@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Magias</title>
+  <title><%= title %></title>
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -21,12 +21,21 @@
     </nav>
   </header>
   <main>
-    <button onclick="history.back()">Voltar</button> <!-- Botão de Voltar -->
+    <button onclick="history.back()">Voltar</button>
     <h1>Lista de Magias</h1>
     <ul>
       <% if (magias.length > 0) { %>
         <% magias.forEach(function(magia) { %>
-          <li><%= magia.nome %> - <%= magia.descricao %> - Dano: <%= magia.dano %></li>
+          <li>
+            <h2><%= magia.nome %></h2>
+            <p><%= magia.descricao %></p>
+            <p>Nível: <%= magia.nivel %></p>
+            <p>Escola: <%= magia.escola %></p>
+            <a href="/magias/edit/<%= magia._id %>">Editar</a>
+            <form action="/magias/<%= magia._id %>?_method=DELETE" method="POST" style="display:inline;">
+              <button type="submit">Excluir</button>
+            </form>
+          </li>
         <% }); %>
       <% } else { %>
         <li>Nenhuma magia encontrada.</li>

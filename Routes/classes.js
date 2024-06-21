@@ -6,15 +6,15 @@ const Classe = require('../models/classe');
 router.get('/', async (req, res) => {
   try {
     const classes = await Classe.find();
-    res.render('list', { title: 'Classes', items: classes, itemUrl: '/classes' });
+    res.render('classes', { title: 'Classes', classes: classes });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).send({ message: err.message });
   }
 });
 
 // GET - Formulário para criar uma nova classe
 router.get('/new', (req, res) => {
-  res.render('form', { formTitle: 'Criar Classe', item: null, formAction: '/classes' });
+  res.render('form', { formTitle: 'Criar Classe', item: null, formAction: '/classes', itemType: 'classe' });
 });
 
 // POST - Criar uma nova classe
@@ -42,7 +42,7 @@ router.get('/:id', async (req, res) => {
 router.get('/edit/:id', async (req, res) => {
   try {
     const classe = await Classe.findById(req.params.id);
-    res.render('form', { formTitle: 'Editar Classe', item: classe, formAction: `/classes/${classe._id}?_method=PUT` });
+    res.render('form', { formTitle: 'Editar Classe', item: classe, formAction: `/classes/${classe._id}?_method=PUT`, itemType: 'classe' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -53,11 +53,13 @@ router.put('/:id', getClasse, async (req, res) => {
   if (req.body.nome != null) {
     res.classe.nome = req.body.nome;
   }
-  // Outros campos a serem atualizados...
+  if (req.body.descricao != null) {
+    res.classe.descricao = req.body.descricao;
+  }
   try {
     const updatedClasse = await res.classe.save();
     res.redirect(`/classes/${updatedClasse._id}`);
-  } catch {
+  } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
@@ -83,7 +85,7 @@ async function getClasse(req, res, next) {
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-  
+
   res.classe = classe;
   next();
 }

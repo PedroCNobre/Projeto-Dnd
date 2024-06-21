@@ -21,17 +21,42 @@
     </nav>
   </header>
   <main>
-    <button onclick="history.back()">Voltar</button> <!-- Botão de Voltar -->
     <h1>Lista de Personagens</h1>
     <ul>
       <% if (personagens.length > 0) { %>
         <% personagens.forEach(function(personagem) { %>
-          <li><%= personagem.nome %> - <%= personagem.classe %> - <%= personagem.raca %></li>
-        <% }); %>
+          <li>
+            <h2><%= personagem.nome %></h2>
+            <p>Raça: <%= personagem.raca.nome %></p>
+            <p>Classe: <%= personagem.classe.nome %></p>
+            <p>Nível: <%= personagem.nivel %></p>
+            <p>Pontos de Vida: <%= personagem.pontosVida %></p>
+            <p>Armadura: <%= personagem.armadura.nome %></p>
+            <p>Armas: 
+              <ul>
+                <% personagem.armas.forEach(function(arma) { %>
+                  <li><%= arma.nome %> (Dano: <%= arma.dano %>, Tipo: <%= arma.tipo %>)</li>
+                <% }) %>
+              </ul>
+            </p>
+            <p>Magias: 
+              <ul>
+                <% personagem.magias.forEach(function(magia) { %>
+                  <li><%= magia.nome %> (Nível: <%= magia.nivel %>, Escola: <%= magia.escola %>)</li>
+                <% }) %>
+              </ul>
+            </p>
+            <a href="/personagens/edit/<%= personagem._id %>">Editar</a>
+            <form action="/personagens/<%= personagem._id %>?_method=DELETE" method="POST" style="display:inline;">
+              <button type="submit">Excluir</button>
+            </form>
+          </li>
+        <% }) %>
       <% } else { %>
         <li>Nenhum personagem encontrado.</li>
       <% } %>
     </ul>
+    <a href="/personagens/new">Criar Novo Personagem</a>
   </main>
   <footer>
     <p>&copy; 2024 Criador de Personagens DnD</p>

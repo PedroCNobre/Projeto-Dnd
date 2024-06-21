@@ -6,15 +6,15 @@ const Magia = require('../models/magia');
 router.get('/', async (req, res) => {
   try {
     const magias = await Magia.find();
-    res.render('list', { title: 'Magias', items: magias, itemUrl: '/magias' });
+    res.render('magias', { title: 'Magias', magias: magias });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).send({ message: err.message });
   }
 });
 
 // GET - Formulário para criar uma nova magia
 router.get('/new', (req, res) => {
-  res.render('form', { formTitle: 'Criar Magia', item: null, formAction: '/magias' });
+  res.render('form', { formTitle: 'Criar Magia', item: null, formAction: '/magias', itemType: 'magia' });
 });
 
 // POST - Criar uma nova magia
@@ -42,7 +42,7 @@ router.get('/:id', async (req, res) => {
 router.get('/edit/:id', async (req, res) => {
   try {
     const magia = await Magia.findById(req.params.id);
-    res.render('form', { formTitle: 'Editar Magia', item: magia, formAction: `/magias/${magia._id}?_method=PUT` });
+    res.render('form', { formTitle: 'Editar Magia', item: magia, formAction: `/magias/${magia._id}?_method=PUT`, itemType: 'magia' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -53,11 +53,19 @@ router.put('/:id', getMagia, async (req, res) => {
   if (req.body.nome != null) {
     res.magia.nome = req.body.nome;
   }
-  // Outros campos a serem atualizados...
+  if (req.body.descricao != null) {
+    res.magia.descricao = req.body.descricao;
+  }
+  if (req.body.nivel != null) {
+    res.magia.nivel = req.body.nivel;
+  }
+  if (req.body.escola != null) {
+    res.magia.escola = req.body.escola;
+  }
   try {
     const updatedMagia = await res.magia.save();
     res.redirect(`/magias/${updatedMagia._id}`);
-  } catch {
+  } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
@@ -83,7 +91,7 @@ async function getMagia(req, res, next) {
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-  
+
   res.magia = magia;
   next();
 }

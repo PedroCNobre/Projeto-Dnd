@@ -26,12 +26,22 @@
     <ul>
       <% if (armas.length > 0) { %>
         <% armas.forEach(function(arma) { %>
-          <li><%= arma.nome %> - <%= arma.descricao %> - Dano: <%= arma.dano %></li>
+          <li>
+            <h2><%= arma.nome %></h2>
+            <p><%= arma.descricao %></p>
+            <p>Dano: <%= arma.dano %></p>
+            <p>Tipo: <%= arma.tipo %></p>
+            <a href="/armas/edit/<%= arma._id %>">Editar</a>
+            <form action="/armas/<%= arma._id %>?_method=DELETE" method="POST" style="display:inline;">
+              <button type="submit">Deletar</button>
+            </form>
+          </li>
         <% }); %>
       <% } else { %>
         <li>Nenhuma arma encontrada.</li>
       <% } %>
     </ul>
+    <a href="/armas/new">Adicionar Nova Arma</a>
   </main>
   <footer>
     <p>&copy; 2024 Criador de Personagens DnD</p>

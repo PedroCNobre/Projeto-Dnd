@@ -6,15 +6,15 @@ const Arma = require('../models/arma');
 router.get('/', async (req, res) => {
   try {
     const armas = await Arma.find();
-    res.render('list', { title: 'Armas', items: armas, itemUrl: '/armas' });
+    res.render('armas', { title: 'Armas', armas: armas });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).send({ message: err.message });
   }
 });
 
 // GET - Formulário para criar uma nova arma
 router.get('/new', (req, res) => {
-  res.render('form', { formTitle: 'Criar Arma', item: null, formAction: '/armas' });
+  res.render('form', { formTitle: 'Criar Arma', item: null, formAction: '/armas', itemType: 'arma' });
 });
 
 // POST - Criar uma nova arma
@@ -42,7 +42,7 @@ router.get('/:id', async (req, res) => {
 router.get('/edit/:id', async (req, res) => {
   try {
     const arma = await Arma.findById(req.params.id);
-    res.render('form', { formTitle: 'Editar Arma', item: arma, formAction: `/armas/${arma._id}?_method=PUT` });
+    res.render('form', { formTitle: 'Editar Arma', item: arma, formAction: `/armas/${arma._id}?_method=PUT`, itemType: 'arma' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -53,11 +53,19 @@ router.put('/:id', getArma, async (req, res) => {
   if (req.body.nome != null) {
     res.arma.nome = req.body.nome;
   }
-  // Outros campos a serem atualizados...
+  if (req.body.descricao != null) {
+    res.arma.descricao = req.body.descricao;
+  }
+  if (req.body.dano != null) {
+    res.arma.dano = req.body.dano;
+  }
+  if (req.body.tipo != null) {
+    res.arma.tipo = req.body.tipo;
+  }
   try {
     const updatedArma = await res.arma.save();
     res.redirect(`/armas/${updatedArma._id}`);
-  } catch {
+  } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
@@ -83,7 +91,7 @@ async function getArma(req, res, next) {
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-  
+
   res.arma = arma;
   next();
 }

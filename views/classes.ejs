@@ -26,12 +26,20 @@
     <ul>
       <% if (classes.length > 0) { %>
         <% classes.forEach(function(classe) { %>
-          <li><%= classe.nome %> - <%= classe.descricao %></li>
+          <li>
+            <h2><%= classe.nome %></h2>
+            <p><%= classe.descricao %></p>
+            <a href="/classes/edit/<%= classe._id %>">Editar</a>
+            <form action="/classes/<%= classe._id %>?_method=DELETE" method="POST" style="display:inline;">
+              <button type="submit">Deletar</button>
+            </form>
+          </li>
         <% }); %>
       <% } else { %>
         <li>Nenhuma classe encontrada.</li>
       <% } %>
     </ul>
+    <a href="/classes/new">Adicionar Nova Classe</a>
   </main>
   <footer>
     <p>&copy; 2024 Criador de Personagens DnD</p>

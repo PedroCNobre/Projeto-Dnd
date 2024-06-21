@@ -1,15 +1,54 @@
-<%- include('layout', { title: 'Raças', content: `
-<main>
-  <button onclick="history.back()">Voltar</button> <!-- Botão de Voltar -->
-  <h1>Lista de Raças</h1>
-  <ul>
-    <% if (racas.length > 0) { %>
-      <% racas.forEach(function(raca) { %>
-        <li><%= raca.nome %> - <%= raca.descricao %></li>
-      <% }); %>
-    <% } else { %>
-      <li>Nenhuma raça encontrada.</li>
-    <% } %>
-  </ul>
-</main>
-` }) %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raças</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/personagens">Personagens</a></li>
+        <li><a href="/racas">Raças</a></li>
+        <li><a href="/classes">Classes</a></li>
+        <li><a href="/armas">Armas</a></li>
+        <li><a href="/armaduras">Armaduras</a></li>
+        <li><a href="/magias">Magias</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <button onclick="history.back()">Voltar</button> <!-- Botão de Voltar -->
+    <h1>Lista de Raças</h1>
+    <ul>
+      <% if (racas.length > 0) { %>
+        <% racas.forEach(function(raca) { %>
+          <li>
+            <h2><%= raca.nome %></h2>
+            <p><%= raca.descricao %></p>
+            <p>Força: <%= raca.forca %></p>
+            <p>Destreza: <%= raca.destreza %></p>
+            <p>Constituição: <%= raca.constituicao %></p>
+            <p>Inteligência: <%= raca.inteligencia %></p>
+            <p>Sabedoria: <%= raca.sabedoria %></p>
+            <p>Carisma: <%= raca.carisma %></p>
+            <a href="/racas/edit/<%= raca._id %>">Editar</a>
+            <form action="/racas/<%= raca._id %>?_method=DELETE" method="POST" style="display:inline;">
+              <button type="submit">Deletar</button>
+            </form>
+          </li>
+        <% }); %>
+      <% } else { %>
+        <li>Nenhuma raça encontrada.</li>
+      <% } %>
+    </ul>
+    <a href="/racas/new">Adicionar Nova Raça</a>
+  </main>
+  <footer>
+    <p>&copy; 2024 Criador de Personagens DnD</p>
+  </footer>
+</body>
+</html>

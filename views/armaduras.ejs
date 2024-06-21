@@ -26,12 +26,22 @@
     <ul>
       <% if (armaduras.length > 0) { %>
         <% armaduras.forEach(function(armadura) { %>
-          <li><%= armadura.nome %> - <%= armadura.descricao %> - Proteção: <%= armadura.protecao %></li>
+          <li>
+            <h2><%= armadura.nome %></h2>
+            <p><%= armadura.descricao %></p>
+            <p>Defesa: <%= armadura.defesa %></p>
+            <p>Tipo: <%= armadura.tipo %></p>
+            <a href="/armaduras/edit/<%= armadura._id %>">Editar</a>
+            <form action="/armaduras/<%= armadura._id %>?_method=DELETE" method="POST" style="display:inline;">
+              <button type="submit">Deletar</button>
+            </form>
+          </li>
         <% }); %>
       <% } else { %>
         <li>Nenhuma armadura encontrada.</li>
       <% } %>
     </ul>
+    <a href="/armaduras/new">Adicionar Nova Armadura</a>
   </main>
   <footer>
     <p>&copy; 2024 Criador de Personagens DnD</p>
