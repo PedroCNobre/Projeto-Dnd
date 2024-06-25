@@ -26,6 +26,7 @@
       <% if (item) { %>
         <input type="hidden" name="_method" value="PUT">
       <% } %>
+
       <label for="nome">Nome:</label>
       <input type="text" id="nome" name="nome" value="<%= item ? item.nome : '' %>" required>
 
@@ -70,45 +71,63 @@
 
         <label for="pontosVida">Pontos de Vida:</label>
         <input type="number" id="pontosVida" name="pontosVida" value="<%= item ? item.pontosVida : '' %>" required>
+
       <% } else if (itemType === 'raca') { %>
         <label for="descricao">Descrição:</label>
         <textarea id="descricao" name="descricao" required><%= item ? item.descricao : '' %></textarea>
+        
         <label for="forca">Força:</label>
         <input type="text" id="forca" name="forca" value="<%= item ? item.forca : '' %>" required>
+        
         <label for="destreza">Destreza:</label>
         <input type="text" id="destreza" name="destreza" value="<%= item ? item.destreza : '' %>" required>
+        
         <label for="constituicao">Constituição:</label>
         <input type="text" id="constituicao" name="constituicao" value="<%= item ? item.constituicao : '' %>" required>
+        
         <label for="inteligencia">Inteligência:</label>
         <input type="text" id="inteligencia" name="inteligencia" value="<%= item ? item.inteligencia : '' %>" required>
+        
         <label for="sabedoria">Sabedoria:</label>
         <input type="text" id="sabedoria" name="sabedoria" value="<%= item ? item.sabedoria : '' %>" required>
+        
         <label for="carisma">Carisma:</label>
         <input type="text" id="carisma" name="carisma" value="<%= item ? item.carisma : '' %>" required>
+
       <% } else if (itemType === 'classe') { %>
         <label for="descricao">Descrição:</label>
         <textarea id="descricao" name="descricao" required><%= item ? item.descricao : '' %></textarea>
+
       <% } else if (itemType === 'arma') { %>
         <label for="descricao">Descrição:</label>
         <textarea id="descricao" name="descricao" required><%= item ? item.descricao : '' %></textarea>
+        
         <label for="dano">Dano:</label>
         <input type="text" id="dano" name="dano" value="<%= item ? item.dano : '' %>" required>
+        
         <label for="tipo">Tipo:</label>
         <input type="text" id="tipo" name="tipo" value="<%= item ? item.tipo : '' %>" required>
+
       <% } else if (itemType === 'armadura') { %>
         <label for="descricao">Descrição:</label>
         <textarea id="descricao" name="descricao" required><%= item ? item.descricao : '' %></textarea>
+        
         <label for="defesa">Defesa:</label>
         <input type="number" id="defesa" name="defesa" value="<%= item ? item.defesa : '' %>" required>
+        
         <label for="tipo">Tipo:</label>
         <input type="text" id="tipo" name="tipo" value="<%= item ? item.tipo : '' %>" required>
+
       <% } else if (itemType === 'magia') { %>
         <label for="descricao">Descrição:</label>
         <textarea id="descricao" name="descricao" required><%= item ? item.descricao : '' %></textarea>
+        
         <label for="nivel">Nível:</label>
         <input type="number" id="nivel" name="nivel" value="<%= item ? item.nivel : '' %>" required>
+        
         <label for="escola">Escola:</label>
         <input type="text" id="escola" name="escola" value="<%= item ? item.escola : '' %>" required>
+
       <% } %>
       <button type="submit">Confirmar</button>
     </form>

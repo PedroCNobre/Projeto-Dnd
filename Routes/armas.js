@@ -14,7 +14,12 @@ router.get('/', async (req, res) => {
 
 // GET - Formulário para criar uma nova arma
 router.get('/new', (req, res) => {
-  res.render('form', { formTitle: 'Criar Arma', item: null, formAction: '/armas', itemType: 'arma' });
+  res.render('form', {
+    formTitle: 'Criar Arma',
+    item: null,
+    formAction: '/armas',
+    itemType: 'arma'
+  });
 });
 
 // POST - Criar uma nova arma
@@ -42,7 +47,12 @@ router.get('/:id', async (req, res) => {
 router.get('/edit/:id', async (req, res) => {
   try {
     const arma = await Arma.findById(req.params.id);
-    res.render('form', { formTitle: 'Editar Arma', item: arma, formAction: `/armas/${arma._id}?_method=PUT`, itemType: 'arma' });
+    res.render('form', {
+      formTitle: 'Editar Arma',
+      item: arma,
+      formAction: `/armas/${arma._id}?_method=PUT`,
+      itemType: 'arma'
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -64,7 +74,7 @@ router.put('/:id', getArma, async (req, res) => {
   }
   try {
     const updatedArma = await res.arma.save();
-    res.redirect(`/armas/${updatedArma._id}`);
+    res.redirect('/armas');
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -73,7 +83,7 @@ router.put('/:id', getArma, async (req, res) => {
 // DELETE - Deletar uma arma pelo ID
 router.delete('/:id', getArma, async (req, res) => {
   try {
-    await res.arma.remove();
+    await Arma.deleteOne({ _id: res.arma._id });
     res.redirect('/armas');
   } catch (err) {
     res.status(500).json({ message: err.message });

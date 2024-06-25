@@ -14,7 +14,12 @@ router.get('/', async (req, res) => {
 
 // GET - Formulário para criar uma nova magia
 router.get('/new', (req, res) => {
-  res.render('form', { formTitle: 'Criar Magia', item: null, formAction: '/magias', itemType: 'magia' });
+  res.render('form', {
+    formTitle: 'Criar Magia',
+    item: null,
+    formAction: '/magias',
+    itemType: 'magia'
+  });
 });
 
 // POST - Criar uma nova magia
@@ -42,7 +47,12 @@ router.get('/:id', async (req, res) => {
 router.get('/edit/:id', async (req, res) => {
   try {
     const magia = await Magia.findById(req.params.id);
-    res.render('form', { formTitle: 'Editar Magia', item: magia, formAction: `/magias/${magia._id}?_method=PUT`, itemType: 'magia' });
+    res.render('form', {
+      formTitle: 'Editar Magia',
+      item: magia,
+      formAction: `/magias/${magia._id}?_method=PUT`,
+      itemType: 'magia'
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -64,7 +74,7 @@ router.put('/:id', getMagia, async (req, res) => {
   }
   try {
     const updatedMagia = await res.magia.save();
-    res.redirect(`/magias/${updatedMagia._id}`);
+    res.redirect('/magias');
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -73,7 +83,7 @@ router.put('/:id', getMagia, async (req, res) => {
 // DELETE - Deletar uma magia pelo ID
 router.delete('/:id', getMagia, async (req, res) => {
   try {
-    await res.magia.remove();
+    await Magia.deleteOne({ _id: res.magia._id });
     res.redirect('/magias');
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -14,7 +14,12 @@ router.get('/', async (req, res) => {
 
 // GET - Formulário para criar uma nova raça
 router.get('/new', (req, res) => {
-  res.render('form', { formTitle: 'Criar Raça', item: null, formAction: '/racas', itemType: 'raca' });
+  res.render('form', {
+    formTitle: 'Criar Raça',
+    item: null,
+    formAction: '/racas',
+    itemType: 'raca'
+  });
 });
 
 // POST - Criar uma nova raça
@@ -42,7 +47,12 @@ router.get('/:id', async (req, res) => {
 router.get('/edit/:id', async (req, res) => {
   try {
     const raca = await Raca.findById(req.params.id);
-    res.render('form', { formTitle: 'Editar Raça', item: raca, formAction: `/racas/${raca._id}?_method=PUT`, itemType: 'raca' });
+    res.render('form', {
+      formTitle: 'Editar Raça',
+      item: raca,
+      formAction: `/racas/${raca._id}?_method=PUT`,
+      itemType: 'raca'
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -76,7 +86,7 @@ router.put('/:id', getRaca, async (req, res) => {
   }
   try {
     const updatedRaca = await res.raca.save();
-    res.redirect(`/racas/${updatedRaca._id}`);
+    res.redirect('/racas');
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -85,7 +95,7 @@ router.put('/:id', getRaca, async (req, res) => {
 // DELETE - Deletar uma raça pelo ID
 router.delete('/:id', getRaca, async (req, res) => {
   try {
-    await res.raca.remove();
+    await Raca.deleteOne({ _id: res.raca._id });
     res.redirect('/racas');
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -14,7 +14,12 @@ router.get('/', async (req, res) => {
 
 // GET - Formulário para criar uma nova classe
 router.get('/new', (req, res) => {
-  res.render('form', { formTitle: 'Criar Classe', item: null, formAction: '/classes', itemType: 'classe' });
+  res.render('form', {
+    formTitle: 'Criar Classe',
+    item: null,
+    formAction: '/classes',
+    itemType: 'classe'
+  });
 });
 
 // POST - Criar uma nova classe
@@ -42,7 +47,12 @@ router.get('/:id', async (req, res) => {
 router.get('/edit/:id', async (req, res) => {
   try {
     const classe = await Classe.findById(req.params.id);
-    res.render('form', { formTitle: 'Editar Classe', item: classe, formAction: `/classes/${classe._id}?_method=PUT`, itemType: 'classe' });
+    res.render('form', {
+      formTitle: 'Editar Classe',
+      item: classe,
+      formAction: `/classes/${classe._id}?_method=PUT`,
+      itemType: 'classe'
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -58,7 +68,7 @@ router.put('/:id', getClasse, async (req, res) => {
   }
   try {
     const updatedClasse = await res.classe.save();
-    res.redirect(`/classes/${updatedClasse._id}`);
+    res.redirect('/classes');
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -67,7 +77,7 @@ router.put('/:id', getClasse, async (req, res) => {
 // DELETE - Deletar uma classe pelo ID
 router.delete('/:id', getClasse, async (req, res) => {
   try {
-    await res.classe.remove();
+    await Classe.deleteOne({ _id: res.classe._id });
     res.redirect('/classes');
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -6,12 +6,12 @@ const path = require('path');
 require('dotenv').config();
 
 // Importe os arquivos de rota
-const personagensRoutes = require('../routes/personagens');
-const racasRoutes = require('../routes/racas');
-const classesRoutes = require('../routes/classes');
-const armasRoutes = require('../routes/armas');
-const armadurasRoutes = require('../routes/armaduras');
-const magiasRoutes = require('../routes/magias');
+const personagensRoutes = require('../Routes/personagens');
+const racasRoutes = require('../Routes/racas');
+const classesRoutes = require('../Routes/classes');
+const armasRoutes = require('../Routes/armas');
+const armadurasRoutes = require('../Routes/armaduras');
+const magiasRoutes = require('../Routes/magias');
 
 const app = express();
 

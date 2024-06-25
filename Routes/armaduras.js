@@ -14,7 +14,12 @@ router.get('/', async (req, res) => {
 
 // GET - Formulário para criar uma nova armadura
 router.get('/new', (req, res) => {
-  res.render('form', { formTitle: 'Criar Armadura', item: null, formAction: '/armaduras', itemType: 'armadura' });
+  res.render('form', {
+    formTitle: 'Criar Armadura',
+    item: null,
+    formAction: '/armaduras',
+    itemType: 'armadura'
+  });
 });
 
 // POST - Criar uma nova armadura
@@ -42,7 +47,12 @@ router.get('/:id', async (req, res) => {
 router.get('/edit/:id', async (req, res) => {
   try {
     const armadura = await Armadura.findById(req.params.id);
-    res.render('form', { formTitle: 'Editar Armadura', item: armadura, formAction: `/armaduras/${armadura._id}?_method=PUT`, itemType: 'armadura' });
+    res.render('form', {
+      formTitle: 'Editar Armadura',
+      item: armadura,
+      formAction: `/armaduras/${armadura._id}?_method=PUT`,
+      itemType: 'armadura'
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -64,7 +74,7 @@ router.put('/:id', getArmadura, async (req, res) => {
   }
   try {
     const updatedArmadura = await res.armadura.save();
-    res.redirect(`/armaduras/${updatedArmadura._id}`);
+    res.redirect('/armaduras');
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -73,7 +83,7 @@ router.put('/:id', getArmadura, async (req, res) => {
 // DELETE - Deletar uma armadura pelo ID
 router.delete('/:id', getArmadura, async (req, res) => {
   try {
-    await res.armadura.remove();
+    await Armadura.deleteOne({ _id: res.armadura._id });
     res.redirect('/armaduras');
   } catch (err) {
     res.status(500).json({ message: err.message });
