@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Armaduras</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -21,30 +23,52 @@
     </nav>
   </header>
   <main>
-    <button onclick="history.back()">Voltar</button> <!-- Botão de Voltar -->
-    <h1>Lista de Armaduras</h1>
-    <ul>
+    <h1><strong>Lista de Armaduras</strong></h1>
+    <div class="row">
+      <div class="col-auto">
+        <button onclick="history.back()" class="btn btn-primary">Voltar</button>
+      </div>
+      <div class="col-auto me-auto">
+        <a href="/armaduras/new" class="btn btn-success">Adicionar Nova Armadura</a>
+      </div>
+    </div>
+
+    <div class="accordion mt-3" id="accordionExample">
       <% if (armaduras.length > 0) { %>
-        <% armaduras.forEach(function(armadura) { %>
-          <li>
-            <h2><%= armadura.nome %></h2>
-            <p><%= armadura.descricao %></p>
-            <p>Defesa: <%= armadura.defesa %></p>
-            <p>Tipo: <%= armadura.tipo %></p>
-            <a href="/armaduras/edit/<%= armadura._id %>">Editar</a>
-            <form action="/armaduras/<%= armadura._id %>?_method=DELETE" method="POST" style="display:inline;">
-              <button type="submit">Deletar</button>
-            </form>
-          </li>
-        <% }); %>
-      <% } else { %>
-        <li>Nenhuma armadura encontrada.</li>
-      <% } %>
-    </ul>
-    <a href="/armaduras/new">Adicionar Nova Armadura</a>
+        <% armaduras.forEach(function(armadura, index) { %>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="heading<%= index %>">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse<%= index %>" aria-expanded="false" aria-controls="collapse<%= index %>">
+                <%= armadura.nome %>
+              </button>
+            </h2>
+            <div id="collapse<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading<%= index %>">
+              <div class="accordion-body">
+                <p><%= armadura.descricao %></p>
+                <p>Defesa: <%= armadura.defesa %></p>
+                <p>Tipo: <%= armadura.tipo %></p>
+                <a href="/armaduras/edit/<%= armadura._id %>" class="btn btn-primary">Editar</a>
+                <form action="/armaduras/<%= armadura._id %>?_method=DELETE" method="POST" style="display:inline;">
+                  <button type="submit" class="btn btn-danger">Deletar</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <% }); %>
+          <% } else { %>
+            <li>Nenhuma armadura encontrada.</li>
+          <% } %>
+    </div>
   </main>
+<<<<<<< Updated upstream
   <footer>
     <p>&copy; 2024 Criador de Personagens DnD</p>
   </footer>
+=======
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"></script>
+>>>>>>> Stashed changes
 </body>
 </html>

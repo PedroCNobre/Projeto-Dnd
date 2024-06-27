@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Personagens</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="/styles.css">
 </head>
+
 <body>
   <header>
     <nav>
@@ -21,45 +25,95 @@
     </nav>
   </header>
   <main>
+<<<<<<< Updated upstream
     <h1>Lista de Personagens</h1>
     <ul>
       <% if (personagens.length > 0) { %>
+=======
+    <h1><strong>Lista de Personagens</strong></h1>
+    <div class="row">
+      <div class="col-auto">
+        <button onclick="history.back()" class="btn btn-primary">Voltar</button>
+      </div>
+      <div class="col-auto me-auto">
+        <a href="/personagens/new" class="btn btn-success">Criar Novo Personagem</a>
+      </div>
+    </div>
+    <div class="row">
+      <% if (personagens.length> 0) { %>
+>>>>>>> Stashed changes
         <% personagens.forEach(function(personagem) { %>
-          <li>
-            <h2><%= personagem.nome %></h2>
-            <p>Raça: <%= personagem.raca.nome %></p>
-            <p>Classe: <%= personagem.classe.nome %></p>
-            <p>Nível: <%= personagem.nivel %></p>
-            <p>Pontos de Vida: <%= personagem.pontosVida %></p>
-            <p>Armadura: <%= personagem.armadura.nome %></p>
-            <p>Armas: 
-              <ul>
-                <% personagem.armas.forEach(function(arma) { %>
-                  <li><%= arma.nome %> (Dano: <%= arma.dano %>, Tipo: <%= arma.tipo %>)</li>
-                <% }) %>
-              </ul>
-            </p>
-            <p>Magias: 
-              <ul>
-                <% personagem.magias.forEach(function(magia) { %>
-                  <li><%= magia.nome %> (Nível: <%= magia.nivel %>, Escola: <%= magia.escola %>)</li>
-                <% }) %>
-              </ul>
-            </p>
-            <a href="/personagens/edit/<%= personagem._id %>">Editar</a>
-            <form action="/personagens/<%= personagem._id %>?_method=DELETE" method="POST" style="display:inline;">
-              <button type="submit">Excluir</button>
-            </form>
-          </li>
-        <% }) %>
-      <% } else { %>
-        <li>Nenhum personagem encontrado.</li>
-      <% } %>
-    </ul>
-    <a href="/personagens/new">Criar Novo Personagem</a>
+          <div class="col-md-3 mt-3">
+            <div class="card" style="width: 18rem;">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSQyF1AUjXtGJXLqF6WoLzBNbMFbXVny9Gdw&s"
+                class="card-img-top" alt="...">
+              <div class="card-body">
+                <h3 class="card-title text-capitalize">
+                  <strong>
+                    <%= personagem.nome %>
+                  </strong>
+                </h3>
+                <p>
+                  <strong>Raça:</strong>
+                  <%= personagem.raca.nome %>
+                </p>
+                <p>
+                  <strong>Classe:</strong>
+                  <%= personagem.classe.nome %>
+                </p>
+                <p>
+                  <strong>Nível:</strong>
+                  <%= personagem.nivel %>
+                </p>
+                <p>
+                  <strong>Pontos de Vida:</strong>
+                  <%= personagem.pontosVida %>
+                </p>
+                <p>
+                  <strong>Armadura:</strong>
+                  <%= personagem.armadura.nome %>
+                </p>
+                <p>
+                  <strong>Armas:</strong>
+                <ul>
+                  <% personagem.armas.forEach(function(arma) { %>
+                    <li>
+                      <%= arma.nome %> (Dano: <%= arma.dano %>, Tipo: <%= arma.tipo %>)
+                    </li>
+                    <% }) %>
+                </ul>
+                </p>
+                <p>
+                  <strong>Magias:</strong>
+                <ul>
+                  <% personagem.magias.forEach(function(magia) { %>
+                    <li>
+                      <%= magia.nome %> (Nível: <%= magia.nivel %>, Escola: <%= magia.escola %>)
+                    </li>
+                    <% }) %>
+                </ul>
+                </p>
+                <a href="/personagens/edit/<%= personagem._id %>" class="btn btn-primary">Editar</a>
+                <form action="/personagens/<%= personagem._id %>?_method=DELETE" method="POST" style="display:inline;">
+                  <button type="submit" class="btn btn-danger">Excluir</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+            <% } else { %>
+              <li class="mt-3">Nenhum personagem encontrado.</li>
+              <% } %>
+    </div>
   </main>
+<<<<<<< Updated upstream
   <footer>
     <p>&copy; 2024 Criador de Personagens DnD</p>
   </footer>
+=======
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+>>>>>>> Stashed changes
 </body>
 </html>
