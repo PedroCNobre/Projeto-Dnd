@@ -12,18 +12,40 @@
 
 <body>
   <header>
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/personagens">Personagens</a></li>
-        <li><a href="/racas">Raças</a></li>
-        <li><a href="/classes">Classes</a></li>
-        <li><a href="/armas">Armas</a></li>
-        <li><a href="/armaduras">Armaduras</a></li>
-        <li><a href="/magias">Magias</a></li>
-      </ul>
+    <nav class="navbar navbar-expand-lg" style="background-color: #ec2127; ">
+      <div class="container-fluid">
+        <a href="/"><img src="https://i.imgur.com/1CPpuKT.png" alt="logo" style="height: 45px;"></a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/personagens"
+                style="color: white;"><strong>Personagens</strong></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/racas"
+                style="color: white;"><strong>Raças</strong></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/classes"
+                style="color: white;"><strong>Classes</strong></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/armas"
+                style="color: white;"><strong>Armas</strong></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/armaduras"
+                style="color: white;"><strong>Armaduras</strong></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/magias"
+                style="color: white;"><strong>Magias</strong></a>
+            </li>
+        </div>
+      </div>
     </nav>
   </header>
+<<<<<<< Updated upstream
   <main>
 <<<<<<< Updated upstream
     <h1>Lista de Personagens</h1>
@@ -47,6 +69,21 @@
             <div class="card" style="width: 18rem;">
               <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSQyF1AUjXtGJXLqF6WoLzBNbMFbXVny9Gdw&s"
                 class="card-img-top" alt="...">
+=======
+  <main class="content">
+    <h1><strong>Lista de Personagens</strong></h1>
+    <div class="col-auto me-auto">
+      <a href="/personagens/new" class="btn btn-success">Criar Novo Personagem</a>
+    </div>
+    </div>
+    <div class="row">
+      <% if (personagens.length> 0) { %>
+        <% personagens.forEach(function(personagem) { %>
+          <div class="col-md-3 mt-3">
+            <div class="card" style="width: 18rem;">
+              <img src="https://i.imgur.com/8UqgfaO.jpg"
+                class="card-img-top" alt="..." style="height: 168px;">
+>>>>>>> Stashed changes
               <div class="card-body">
                 <h3 class="card-title text-capitalize">
                   <strong>
@@ -107,6 +144,7 @@
     </div>
   </main>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   <footer>
     <p>&copy; 2024 Criador de Personagens DnD</p>
   </footer>
@@ -116,4 +154,14 @@
     crossorigin="anonymous"></script>
 >>>>>>> Stashed changes
 </body>
+=======
+  <footer class="footer container-fluid row g-1">
+    <p class="text-center"><strong>&copy; 2024 Criador de Personagens DnD</strong></p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+</body>
+
+>>>>>>> Stashed changes
 </html>
