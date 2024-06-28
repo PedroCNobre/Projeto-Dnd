@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -21,29 +23,54 @@
     </nav>
   </header>
   <main>
-    <button onclick="history.back()">Voltar</button>
-    <h1>Lista de Magias</h1>
-    <ul>
+    <h1><strong>Lista de Magia</strong></h1>
+    <div class="row">
+      <div class="col-auto">
+        <button onclick="history.back()" class="btn btn-primary">Voltar</button>
+      </div>
+      <div class="col-auto me-auto">
+        <a href="/magias/new" class="btn btn-success">Adicionar Nova Magia</a>
+      </div>
+    </div>
+
+    <div class="accordion mt-3" id="accordionExample">
       <% if (magias.length > 0) { %>
-        <% magias.forEach(function(magia) { %>
-          <li>
-            <h2><%= magia.nome %></h2>
-            <p><%= magia.descricao %></p>
-            <p>Nível: <%= magia.nivel %></p>
-            <p>Escola: <%= magia.escola %></p>
-            <a href="/magias/edit/<%= magia._id %>">Editar</a>
-            <form action="/magias/<%= magia._id %>?_method=DELETE" method="POST" style="display:inline;">
-              <button type="submit">Excluir</button>
-            </form>
-          </li>
+        <% magias.forEach(function(magia, index) { %>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="heading<%= index %>">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse<%= index %>" aria-expanded="false" aria-controls="collapse<%= index %>">
+                <%= magia.nome %>
+              </button>
+            </h2>
+            <div id="collapse<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading<%= index %>">
+              <div class="accordion-body">
+                <p><%= magia.descricao %></p>
+                <p><strong>Nível:</strong> <%= magia.nivel %></p>
+                <p><strong>Escola:</strong> <%= magia.escola %></p>
+                <a href="/magias/edit/<%= magia._id %>" class="btn btn-primary">Editar</a>
+                <form action="/magias/<%= magia._id %>?_method=DELETE" method="POST" style="display:inline;">
+                  <button type="submit" class="btn btn-danger">Deletar</button>
+                </form>
+              </div>
+            </div>
+          </div>
         <% }); %>
       <% } else { %>
         <li>Nenhuma magia encontrada.</li>
       <% } %>
+<<<<<<< Updated upstream
     </ul>
   </main>
   <footer>
     <p>&copy; 2024 Criador de Personagens DnD</p>
   </footer>
+=======
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"></script>
+>>>>>>> Stashed changes
 </body>
 </html>
